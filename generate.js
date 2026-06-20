@@ -45,11 +45,21 @@ exports.handler = async function(event) {
     const rawText = data.content && data.content[0] ? data.content[0].text : '';
     const usState = incoming.usState || null;
 
+    console.log('Verification check: rawText length=' + rawText.length + ' usState=' + JSON.stringify(usState));
+
     if (rawText && usState) {
-      const verified = await verifyPlants(rawText, usState);
-      // Stitch the verification notes back into the text the front end already parses,
-      // by appending a VERIFICATION block it can read separately if it chooses to.
-      data.content[0].text = rawText + '\n\nVERIFICATION:\n' + JSON.stringify(verified);
+      console.log('Starting GBIF verification for state: ' + usState);
+      try {
+        const verified = await verifyPlants(rawText, usState);
+        console.log('GBIF verification complete:', JSON.stringify(verified));
+        // Stitch the verification notes back into the text the front end already parses,
+        // by appending a VERIFICATION block it can read separately if it chooses to.
+        data.content[0].text = rawText + '\n\nVERIFICATION:\n' + JSON.stringify(verified);
+      } catch (verifyErr) {
+        console.log('GBIF verification FAILED with error:', verifyErr.message);
+      }
+    } else {
+      console.log('Skipping verification - rawText present: ' + !!rawText + ', usState present: ' + !!usState);
     }
 
     return {
