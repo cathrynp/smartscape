@@ -2107,7 +2107,7 @@
             return 'MT';
         if (z >= 83000 && z <= 83999)
             return 'ID';
-        if (z >= 87000 && z <= 88499)
+        if (z >= 87000 && z <= 88999)
             return 'NM';
         if (z >= 68000 && z <= 69399)
             return 'NE';
@@ -2253,7 +2253,7 @@
     function clearPhoto() {
         imgData = null;
         imgType = null;
-        var fi = document.getElementById('file-input'); if (fi) fi.value = '';
+        document.getElementById('file-input').value = '';
         document.getElementById('preview-img').src = '';
         document.getElementById('upload-area').style.display = 'block';
         document.getElementById('preview-wrap').style.display = 'none';
@@ -2628,3 +2628,4 @@
     </script>
 </body>
 </html>
+
