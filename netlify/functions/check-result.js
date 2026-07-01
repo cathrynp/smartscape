@@ -12,7 +12,7 @@ exports.handler = async function(event) {
   }
 
   try {
-    const store = getStore({ name: 'greenprint-jobs', consistency: 'strong' });
+    const store = getStore({ name: 'greenprint-jobs' });
     const result = await store.get(jobId, { type: 'json' });
 
     if (!result) {

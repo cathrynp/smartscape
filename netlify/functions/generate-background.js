@@ -6,7 +6,7 @@ exports.handler = async function(event) {
   try {
     const incoming = JSON.parse(event.body);
     jobId = incoming.jobId;
-    const store = getStore({ name: 'greenprint-jobs', consistency: 'strong' });
+    const store = getStore({ name: 'greenprint-jobs' });
     const API_KEY = process.env.ANTHROPIC_API_KEY;
 
     if (!API_KEY) {
@@ -37,7 +37,7 @@ exports.handler = async function(event) {
     console.log('Error:', err.message);
     if (jobId) {
       try {
-        const store = getStore({ name: 'greenprint-jobs', consistency: 'strong' });
+        const store = getStore({ name: 'greenprint-jobs' });
         await store.setJSON(jobId, { status: 'error', message: err.message });
       } catch (storeErr) {
         console.log('Failed to write error to store:', storeErr.message);
